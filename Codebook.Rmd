@@ -1,0 +1,90 @@
+---
+title: "Codebook"
+author: "Shirley Robinson"
+date: "18 May 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction to the Final Tidy Data Set: Extracted Data
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+## The Final Tidy Data Set
+
+The final tidy data set (extracted_data_gr) contains 180 rows and 88 columns, containing the mean and standard deviation of the variables
+
+## Data Downloaded and Extracted
+
+The data were downloaded from"" https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip" and extracted using unz(ip) command to the file: UCI HARdataset.
+
+## Assigning the datasets
+
+The features data set is extracted into R from the file features.txt. It has 561 rows and 2 columns (named Feature_no and Feature_name). 
+
+The activities data set is extracted into R from the file activity_labels.txt. It has 6 rows and 2 columns (named code and Activity_type). The 6 activity types are: walking, walking upstairs, walking downstairs, standing, laying.
+
+The subject_test data set is extracted into R from the file subject_test.txt. It has 2947 rows and 1 column (named subject). The subjects were 30 volunteers within an age bracket of 19-48 years that performed the 6 activity types:walking, walking upstairs, walking downstairs, standing, laying.
+
+The x_test data set is extracted into R from the file X-test.txt. It has 2947 rows and 561 columns (with column names drawn from the features data set column named Feature_name)
+
+The y_test data set is extracted into R from the file y_test. It has 2947 rows (with the column name code)
+
+The subject_train data set is extracted into R from the file subject_train.txt. It has 7352 rows and 1 column (named subject)
+
+The x_train data set is extracted into R from the file X-train.txt. It has 7352 rows and 561 columns (with column names drawn from the features data set column named Feature_name).
+
+The y_train data set is extracted into R from the file y_train.txt. It has 7352 rows and 1 column, named code
+
+## Merging the data sets
+
+The next step is to merge the training and test data sets. 
+
+The X_set data set merges the x_train and x_test data sets using the rbind function. It has 10299 rows and 561 columns (with column names drawn from the features data set column named Feature_name)
+
+The Y_labels data set merges the y_train and y_test data sets using the rbind function. It has 10299 rows and 1 column (named code)
+
+The subject_set data set merges the subject_train and subject_test data sets using the rbind function. It has 10299 rows and 1 column (named subject)
+
+The merged_data set then merges the subject_set, the Y_labels and the X_set data sets using the cbind (column bind) function. It has 10299 rows and 563 columns (with column names including subject, code and the 561 column names drawn from the features data set column named Feature_name)
+
+## Extracting only the mean and standard deviation for each measurement
+
+Using the package dplyr, the TidyData set then uses the select function on the merged_data set to select the subject and code columns, and then only the columns that contain the mean and standard deviation for each measurement.
+
+The TidyData set has 10299 rows and 88 columns. The column names include subject, code and then the remaining 86 column names drawn from the features data set column named Feature_name that contain the mean and standard deviation for each measurement.
+
+
+## Using the descriptive activity names to name the activities in the data set
+The numbers in the code column in the TidyData set are renamed using the Acivity_type names in the second column of the activities dataset.
+
+## The TidyData set is labelled with the appropriate descriptive variable names to improved user readability
+Using the names function, the first column in the TidyData set is renamed from subject to Subject, with a capital "S"
+
+Using the names function, the column column in the TidyData set is renamed from code to Activity
+
+Using the names function, column names with the letters Acc are renamed to the word Accelerator.
+
+Using the names function, column names with the letters Gyro are renamed to the word Gyroscope.
+
+Using the names function, column names starting with the letter t are renamed to start with the word Time.
+
+Using the names function, column names starting with the letter f are renamed to start with the word Frequency.
+
+Using the names function, column names starting with the word tBody are renamed to start with the word TimeBody
+
+Using the names function, column names with the word mean are renamed MeanValue.
+
+## From the TidyData set creates a second, independent tidy data set TidyData2 with the average of each variable for each activity and each subject
+
+Using dplyr command group_by the TidyData set is grouped by the Columns Subject and Activity to create the TidyData_gr data set, which has 10299 rows and 88 columns. The column names include Subject, Activity and then the remaining 86 column names drawn from the features data set column named Feature_name that contain the mean and standard deviation for each measurement.
+
+Using the dplyr comman summarise_all, the TidyData2 data set summarises the TidyData_gr data set across all variables for each activity using the mean function (to create averages).
+
+The result is a tidy data set TidyData2 that averages each variable for each activity and each subject. The TidyData2 data set has 180 rows and 88 columns. The column names include Subject, Activity and then the remaining 86 column names drawn from the features data set column named Feature_name that contain the mean and standard deviation for each measurement.
+
